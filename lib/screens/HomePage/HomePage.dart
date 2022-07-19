@@ -14,8 +14,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: Text('PRIX'),
+        title: Container(
+          child: Text(
+            'Hola',
+            style: TextStyle(color: Colors.blueGrey),
+          ),
+        ),
         backgroundColor: Colors.white,
         actions: [signInWidget()],
       ),
