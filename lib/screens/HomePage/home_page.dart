@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:prixz/common/BookCard.dart';
-import 'package:prixz/screens/HomePage/SearchBar.dart';
+import 'package:prixz/common/book_card/book_card.dart';
+import 'package:prixz/screens/HomePage/search_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,11 +16,13 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Container(
           child: Text(
-            'Hola',
-            style: TextStyle(color: Colors.blueGrey),
+            'PrixzBooks',
+            style: TextStyle(color: Colors.blue.shade600),
           ),
         ),
-        backgroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Theme.of(context).canvasColor,
         actions: [signInWidget()],
       ),
       body: SafeArea(child: body()),
@@ -30,9 +32,18 @@ class _HomePageState extends State<HomePage> {
   Widget body() {
     return Column(
       children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Align(
+            child:
+                Text('Descubre', style: Theme.of(context).textTheme.headline1),
+            alignment: Alignment.centerLeft,
+          ),
+        ),
+        SizedBox(height: 20),
         SearchBar(),
         Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
           child: BookCard(
             title: 'Lord of the Rings',
             author: 'Pepito',

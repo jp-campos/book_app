@@ -12,9 +12,13 @@ class _SearchBarState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return TextField(
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.search),
+        prefixIconConstraints: BoxConstraints(minHeight: 20, minWidth: 50),
+        prefixIcon: Icon(
+          Icons.search,
+          size: 30,
+        ),
         isDense: true,
-        hintText: 'Search Books',
+        hintText: 'Busca por título o autor',
       ),
     );
   }

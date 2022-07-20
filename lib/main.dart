@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:prixz/screens/HomePage/HomePage.dart';
+import 'package:prixz/screens/HomePage/home_page.dart';
+import 'package:prixz/theme/text_theme.dart';
 
 void main() {
   runApp(PrixzBook());
@@ -13,6 +14,7 @@ class PrixzBook extends StatelessWidget {
       title: 'Prixz Book app',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
+        textTheme: textTheme,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
