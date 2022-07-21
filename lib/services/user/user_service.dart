@@ -18,6 +18,12 @@ class UserService implements UserGateway {
   Future<User?> logedInUser() async {
     prefs = prefs ?? await SharedPreferences.getInstance();
     List<String>? list = prefs!.getStringList(_signedUserKey);
-    userFromPrefs(list);
+    return userFromPrefs(list);
+  }
+
+  @override
+  Future<void> logOut() async {
+    prefs = prefs ?? await SharedPreferences.getInstance();
+    prefs!.remove(_signedUserKey);
   }
 }

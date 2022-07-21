@@ -8,7 +8,9 @@ class SessionNotifier extends ChangeNotifier {
 
   UserGateway _gateway;
   bool get isLoggedIn => signedInUser != null;
-  SessionNotifier(this._gateway);
+  SessionNotifier(this._gateway) {
+    _queryLogedInUser();
+  }
 
   void signIn() async {
     User u = userBuilder.build();
@@ -18,4 +20,9 @@ class SessionNotifier extends ChangeNotifier {
   }
 
   void signOut() => {signedInUser = null, notifyListeners()};
+
+  void _queryLogedInUser() async {
+    signedInUser = await _gateway.logedInUser();
+    if (signedInUser != null) notifyListeners();
+  }
 }

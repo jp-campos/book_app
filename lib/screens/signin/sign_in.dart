@@ -14,7 +14,7 @@ class Signin extends StatefulWidget {
 
 class _SigninState extends State<Signin> {
   final _formKey = GlobalKey<FormState>();
-
+  double paddingBetween = 20.0;
   @override
   Widget build(BuildContext context) {
     return body();
@@ -41,7 +41,10 @@ class _SigninState extends State<Signin> {
                     uBuilder.names = value;
                   },
                   validator: nonNull,
-                  decoration: InputDecoration(hintText: 'Nombres'),
+                  decoration: InputDecoration(
+                    hintText: 'Nombres',
+                    prefixIcon: Icon(Icons.person),
+                  ),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(
                         RegExp(r'[ a-zA-Záéíóúñ]+'))
@@ -52,7 +55,10 @@ class _SigninState extends State<Signin> {
                     uBuilder.surnames = value;
                   },
                   validator: nonNull,
-                  decoration: InputDecoration(hintText: 'Apellidos'),
+                  decoration: InputDecoration(
+                    hintText: 'Apellidos',
+                    prefixIcon: Icon(Icons.person),
+                  ),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(
                         RegExp(r'[ a-zA-Záéíóúñ]+'))
@@ -63,7 +69,10 @@ class _SigninState extends State<Signin> {
                     uBuilder.phone = value;
                   },
                   validator: nonNull,
-                  decoration: InputDecoration(hintText: 'Celular'),
+                  decoration: InputDecoration(
+                    hintText: 'Celular',
+                    prefixIcon: Icon(Icons.phone),
+                  ),
                   keyboardType: TextInputType.number,
                   maxLength: 10,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -72,7 +81,10 @@ class _SigninState extends State<Signin> {
                   onChanged: (value) {
                     uBuilder.email = value;
                   },
-                  decoration: InputDecoration(hintText: 'Correo Electrónico'),
+                  decoration: InputDecoration(
+                    hintText: 'Correo Electrónico',
+                    prefixIcon: Icon(Icons.email),
+                  ),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value != null &&
@@ -83,12 +95,17 @@ class _SigninState extends State<Signin> {
                   },
                 ),
                 TextFormField(
-                  decoration: InputDecoration(hintText: 'Fecha de nacimiento'),
+                  decoration: InputDecoration(
+                      hintText: 'Fecha de nacimiento',
+                      prefixIcon: Icon(Icons.cake)),
+                  validator: nonNull,
                   readOnly: true,
                   controller: dateEditingController,
                   onTap: () => showCalendar(uBuilder, dateEditingController),
                 ),
                 DropdownButtonFormField<String>(
+                  decoration:
+                      InputDecoration(prefixIcon: Icon(Icons.transgender)),
                   onChanged: (value) {
                     uBuilder.gender = value;
                   },
@@ -104,11 +121,20 @@ class _SigninState extends State<Signin> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       sessionProvider.signIn();
+                    } else {
+                      setState(() {
+                        paddingBetween = 8;
+                      });
                     }
                   },
                   child: Text('Registrarse'),
                 ),
-              ],
+              ]
+                  .map((e) => Padding(
+                        padding: EdgeInsets.only(bottom: paddingBetween),
+                        child: e,
+                      ))
+                  .toList(),
             ),
           )
         ],

@@ -147,6 +147,6 @@ class _BookCardState extends State<BookCard> {
         crossFadeState: hasImageLoaded
             ? CrossFadeState.showSecond
             : CrossFadeState.showFirst,
-        duration: Duration(milliseconds: 500));
+        duration: Duration(milliseconds: 600));
   }
 }

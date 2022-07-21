@@ -35,7 +35,9 @@ class _BookDetailState extends State<BookDetail> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(child: cover),
+          Center(
+              child: Container(
+                  constraints: BoxConstraints(maxHeight: 300), child: cover)),
           SizedBox(
             height: 20,
           ),
