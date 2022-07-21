@@ -20,7 +20,7 @@ class _LoadingThumbnailState extends State<LoadingThumbnail>
       vsync: this,
     )..repeat();
 
-    animation = Tween(begin: -1, end: 1).animate(controller);
+    animation = Tween<double>(begin: -3, end: 10).animate(controller);
   }
 
   @override
@@ -36,10 +36,11 @@ class _LoadingThumbnailState extends State<LoadingThumbnail>
         builder: (context, widget) {
           return Container(
             height: 58,
-            width: 38,
+            width: 45,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
               begin: Alignment(animation.value, 0),
+              end: Alignment.centerLeft,
               colors: [
                 Colors.grey,
                 Colors.grey.shade300,

@@ -1,5 +1,6 @@
 import 'package:prixz/domain/book.dart';
 
 abstract class BookGateway {
-  List<Book> getBooks();
+  Future<List<Book>> getBooks(String search);
+  Future<String?> getBookDescription(String bookId);
 }

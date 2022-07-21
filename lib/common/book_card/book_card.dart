@@ -4,19 +4,18 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
+import 'package:prixz/common/book_card/color_helper.dart';
 import 'package:prixz/common/book_card/loading_thumbnail.dart';
+import 'package:prixz/domain/book.dart';
+import 'package:prixz/screens/book_detail/book_detail.dart';
 
 class BookCard extends StatefulWidget {
-  final String title;
-  final String author;
-  final String thumbnail;
+  final Book model;
 
-  const BookCard(
-      {required this.title,
-      required this.author,
-      required this.thumbnail,
-      Key? key})
-      : super(key: key);
+  const BookCard({
+    required this.model,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _BookCardState createState() => _BookCardState();
@@ -25,48 +24,45 @@ class BookCard extends StatefulWidget {
 class _BookCardState extends State<BookCard> {
   Color cardColor = Colors.blueGrey;
   ByteData? imageData;
+  bool hasNoThumbnail = false;
+
   @override
   void initState() {
     super.initState();
     fetchImage();
   }
 
-  void fetchImage() async {
-    imageData = await NetworkAssetBundle(Uri.parse(widget.thumbnail)).load("");
-
-    final Uint8List bytes = imageData!.buffer.asUint8List();
-    final pic = img.decodeJpg(bytes);
-    if (pic != null) {
-      setState(() {
-        cardColor = getAverageColor(pic);
-      });
+  @override
+  void setState(fn) {
+    if (this.mounted) {
+      super.setState(fn);
     }
   }
 
-  Color getAverageColor(img.Image pic) {
-    int n = 0;
-    int r = 0;
-    int g = 0;
-    int b = 0;
+  void fetchImage() async {
+    final thumbnail = widget.model.thumbnail;
 
-    for (int x = 0; x < pic.width; x++) {
-      for (int y = 0; y < pic.height; y++) {
-        final color = pic.getPixel(x, y);
-        r += img.getRed(color) * img.getRed(color);
-        g += img.getGreen(color) * img.getGreen(color);
-        b += img.getBlue(color) * img.getBlue(color);
-        n++;
+    if (thumbnail != null) {
+      imageData = await NetworkAssetBundle(Uri.parse(thumbnail)).load("");
+
+      final Uint8List bytes = imageData!.buffer.asUint8List();
+      final pic = img.decodeImage(bytes);
+      if (pic != null) {
+        setState(() {
+          cardColor = getAverageColor(pic);
+        });
+        return;
       }
     }
-    print('$r $g $b');
-    return Color.fromRGBO(
-        sqrt(r / n).toInt(), sqrt(g / n).toInt(), sqrt(b / n).toInt(), 1);
+    setState(() {
+      hasNoThumbnail = true;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => print('TODO card tap'),
+      onTap: () => onBookTaped(widget.model),
       child: Container(
         decoration: ShapeDecoration(
             gradient: LinearGradient(
@@ -79,26 +75,46 @@ class _BookCardState extends State<BookCard> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15))),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GestureDetector(
-              onTap: () => print('tap en el libro'),
+              onTapDown: (_) => print('on tap down'),
+              onTap: () => onBookTaped(widget.model),
               child: Transform.translate(
-                offset: Offset(0, -15),
+                offset: Offset(hasNoThumbnail ? 0 : 10, -15),
                 child: Container(
-                  width: 50,
+                  width: 60,
+                  height: 80,
                   child: thumbnail(imageData),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.title,
-                      style: Theme.of(context).textTheme.headline4),
-                  Text(widget.author),
-                ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        widget.model.title,
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                    ),
+                    Text(
+                      widget.model.author ?? '',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      widget.model.firstPublishYear,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -107,14 +123,30 @@ class _BookCardState extends State<BookCard> {
     );
   }
 
+  void onBookTaped(Book b) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => BookDetail(book: b)),
+    );
+  }
+
   Widget thumbnail(ByteData? byte) {
-    return LoadingThumbnail();
-    return byte != null
-        ? Image.memory(byte.buffer.asUint8List())
-        : Container(
-            color: Colors.red,
-            height: 58,
-            width: 38,
-          );
+    bool hasImageLoaded = byte != null;
+
+    if (hasNoThumbnail) {
+      return const Image(
+        image: AssetImage('assets/cover_placeholder.png'),
+      );
+    }
+
+    return AnimatedCrossFade(
+        firstChild: LoadingThumbnail(),
+        secondChild: hasImageLoaded
+            ? Image.memory(byte.buffer.asUint8List())
+            : SizedBox.shrink(),
+        crossFadeState: hasImageLoaded
+            ? CrossFadeState.showSecond
+            : CrossFadeState.showFirst,
+        duration: Duration(milliseconds: 500));
   }
 }

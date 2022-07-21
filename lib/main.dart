@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prixz/screens/HomePage/home_page.dart';
+import 'package:prixz/screens/home_page/home_page.dart';
 import 'package:prixz/theme/text_theme.dart';
 
 void main() {

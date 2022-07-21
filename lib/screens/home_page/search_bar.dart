@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
-class SearchBar extends StatefulWidget {
-  const SearchBar({Key? key}) : super(key: key);
+class SearchBar extends StatelessWidget {
+  final ValueChanged<String> onValueChanged;
 
-  @override
-  State<SearchBar> createState() => _SearchBarState();
-}
+  const SearchBar(this.onValueChanged);
 
-class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onChanged: onValueChanged,
       decoration: InputDecoration(
         prefixIconConstraints: BoxConstraints(minHeight: 20, minWidth: 50),
         prefixIcon: Icon(
