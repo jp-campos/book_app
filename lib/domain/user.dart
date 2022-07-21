@@ -1,3 +1,5 @@
+import 'package:prixz/common/helper/date_helper.dart';
+
 class User {
   String names;
   String surnames;
@@ -33,7 +35,7 @@ class UserBuilder {
         surnames: surnames!,
         email: email!,
         phone: phone!,
-        age: age!,
+        age: getAge(birthDate!),
         gender: gender!,
         birthDate: birthDate!);
   }

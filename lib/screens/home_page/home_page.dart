@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:prixz/common/book_card/book_card.dart';
 import 'package:prixz/notifiers/books_notifier.dart';
+import 'package:prixz/notifiers/session_notifier.dart';
 import 'package:prixz/screens/home_page/search_bar.dart';
-import 'package:prixz/screens/signin/sign_in.dart';
 import 'package:prixz/screens/signin/signin_userdata.dart';
 import 'package:prixz/services/book/book_service.dart';
 import 'package:provider/provider.dart';
@@ -76,11 +76,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget signInWidget() {
-    return TextButton(
-      onPressed: () => Navigator.of(context)
-          .push(MaterialPageRoute(builder: (ctx) => SignInUserData())),
-      style: ButtonStyle(),
-      child: Text('Regístrate'),
-    );
+    return Consumer<SessionNotifier>(builder: (context, notifier, child) {
+      return TextButton(
+        onPressed: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (ctx) => SignInUserData())),
+        style: ButtonStyle(),
+        child: notifier.isLoggedIn ? Text('Perfil') : Text('Regístrate'),
+      );
+    });
   }
 }

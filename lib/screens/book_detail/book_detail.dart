@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prixz/common/info_pair.dart';
 import 'package:prixz/common/new_page_appbar.dart';
 import 'package:prixz/domain/book.dart';
 import 'package:prixz/notifiers/description_notifier.dart';
@@ -53,48 +54,53 @@ class _BookDetailState extends State<BookDetail> {
             }
             return SizedBox.shrink();
           }),
-          ...info('Autor', widget.book.author, Icons.edit),
-          ...info('Primer año de publicación', widget.book.firstPublishYear,
-              Icons.calendar_today_outlined),
-          ...info('# de páginas', widget.book.numberOfPagesMedian?.toString(),
-              Icons.auto_stories),
+          InfoPair(title: 'Autor', value: widget.book.author, icon: Icons.edit),
+          InfoPair(
+              title: 'Primer año de publicación',
+              value: widget.book.firstPublishYear,
+              icon: Icons.calendar_today_outlined),
+          InfoPair(
+              title: '# de páginas',
+              value: widget.book.numberOfPagesMedian?.toString(),
+              icon: Icons.auto_stories),
         ],
       ),
     );
   }
 
-  Iterable<Widget> info(String title, String? content, IconData icon) {
+  Widget info(String title, String? content, IconData icon) {
     if (content != null) {
-      return [
-        SizedBox(height: 20),
-        Row(
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(
-              icon,
-              color: Theme.of(context).primaryColor,
-              size: 18,
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Icon(
+                  icon,
+                  color: Theme.of(context).primaryColor,
+                  size: 18,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.subtitle2,
+                ),
+              ],
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.subtitle2,
+            Padding(
+              padding: const EdgeInsets.only(left: 28),
+              child: Text(content),
             ),
           ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 28),
-          child: Text(content),
-        ),
-      ].map(
-        (e) => Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: e,
         ),
       );
     }
 
-    return [];
+    return SizedBox.shrink();
   }
 }

@@ -12,7 +12,6 @@ class UserService implements UserGateway {
   Future<void> signIn(User user) async {
     prefs = prefs ?? await SharedPreferences.getInstance();
     prefs!.setStringList(_signedUserKey, prefsFromUser(user));
-    throw UnimplementedError();
   }
 
   @override

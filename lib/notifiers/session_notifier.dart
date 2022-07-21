@@ -16,4 +16,6 @@ class SessionNotifier extends ChangeNotifier {
     signedInUser = u;
     notifyListeners();
   }
+
+  void signOut() => {signedInUser = null, notifyListeners()};
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:prixz/common/gender_constants.dart';
+import 'package:prixz/domain/user.dart';
 import 'package:prixz/notifiers/session_notifier.dart';
 import 'package:provider/provider.dart';
 
@@ -84,25 +86,7 @@ class _SigninState extends State<Signin> {
                   decoration: InputDecoration(hintText: 'Fecha de nacimiento'),
                   readOnly: true,
                   controller: dateEditingController,
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Dialog(
-                              child: CalendarDatePicker(
-                                  initialDate: DateTime(2000),
-                                  firstDate: DateTime(1920),
-                                  lastDate: DateTime.now(),
-                                  onDateChanged: (date) {
-                                    uBuilder.birthDate = date.toString();
-
-                                    dateEditingController.text =
-                                        date.toString().split(' ')[0];
-
-                                    Navigator.pop(context);
-                                  }));
-                        });
-                  },
+                  onTap: () => showCalendar(uBuilder, dateEditingController),
                 ),
                 DropdownButtonFormField<String>(
                   onChanged: (value) {
@@ -110,7 +94,7 @@ class _SigninState extends State<Signin> {
                   },
                   validator: nonNull,
                   hint: Text('Género'),
-                  items: ['Masculino', 'Femenino', 'Otro']
+                  items: [masculino, femenino, otro]
                       .map<DropdownMenuItem<String>>(
                           (e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
@@ -137,5 +121,26 @@ class _SigninState extends State<Signin> {
       return null;
     }
     return 'Ingrese un valor';
+  }
+
+  void showCalendar(
+      UserBuilder uBuilder, TextEditingController editingController) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+              child: CalendarDatePicker(
+                  initialDate: DateTime(2000),
+                  firstDate: DateTime(1920),
+                  lastDate: DateTime.now(),
+                  onDateChanged: (date) {
+                    uBuilder.birthDate = date.toString();
+
+                    final dateS = date.toString().split(' ')[0];
+                    editingController.text = dateS;
+
+                    Navigator.pop(context);
+                  }));
+        });
   }
 }
