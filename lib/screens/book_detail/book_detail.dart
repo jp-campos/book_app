@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:prixz/common/new_page_appbar.dart';
 import 'package:prixz/domain/book.dart';
 import 'package:prixz/notifiers/description_notifier.dart';
 import 'package:prixz/screens/book_detail/expandable_text.dart';
-import 'package:prixz/services/book_service.dart';
+import 'package:prixz/services/book/book_service.dart';
 import 'package:provider/provider.dart';
 
 class BookDetail extends StatefulWidget {
@@ -17,19 +18,12 @@ class _BookDetailState extends State<BookDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Theme.of(context).canvasColor,
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(Icons.arrow_back),
-            color: Theme.of(context).primaryColor,
-          ),
-        ),
+        appBar: newPageAppBar(context),
         body: ChangeNotifierProvider<DescriptionNotifier>(
-            create: (context) =>
-                DescriptionNotifier(BookService(), widget.book.id),
-            child: body(context)));
+          create: (context) =>
+              DescriptionNotifier(BookService(), widget.book.id),
+          child: body(context),
+        ));
   }
 
   Widget body(BuildContext context) {

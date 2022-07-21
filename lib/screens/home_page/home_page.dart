@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:prixz/common/book_card/book_card.dart';
 import 'package:prixz/notifiers/books_notifier.dart';
 import 'package:prixz/screens/home_page/search_bar.dart';
-import 'package:prixz/services/book_service.dart';
+import 'package:prixz/screens/signin/sign_in.dart';
+import 'package:prixz/screens/signin/signin_userdata.dart';
+import 'package:prixz/services/book/book_service.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -75,9 +77,10 @@ class _HomePageState extends State<HomePage> {
 
   Widget signInWidget() {
     return TextButton(
-      onPressed: () => print('TODO'),
+      onPressed: () => Navigator.of(context)
+          .push(MaterialPageRoute(builder: (ctx) => SignInUserData())),
       style: ButtonStyle(),
-      child: Text('Sign in'),
+      child: Text('Regístrate'),
     );
   }
 }

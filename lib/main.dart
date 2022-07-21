@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:prixz/notifiers/session_notifier.dart';
 import 'package:prixz/screens/home_page/home_page.dart';
+import 'package:prixz/services/user/user_service.dart';
 import 'package:prixz/theme/text_theme.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(PrixzBook());
@@ -9,14 +12,17 @@ void main() {
 class PrixzBook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Prixz Book app',
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-        textTheme: textTheme,
+    return ChangeNotifierProvider(
+      create: (_) => SessionNotifier(UserService()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Prixz Book app',
+        theme: ThemeData(
+          primarySwatch: Colors.blueGrey,
+          textTheme: textTheme,
+        ),
+        home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }

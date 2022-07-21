@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:prixz/domain/book.dart';
 import 'package:prixz/domain/book_gateway.dart';
 import 'package:http/http.dart' as http;
-import 'package:prixz/services/book_mapper.dart';
+import 'package:prixz/services/book/book_mapper.dart';
 
 const _endPoint = 'openlibrary.org';
 
