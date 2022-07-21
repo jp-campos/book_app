@@ -18,4 +18,5 @@ final textTheme = TextTheme(
     color: Colors.blueGrey,
     fontSize: 16,
   ),
+  overline: TextStyle(color: Colors.grey, fontSize: 14),
 );

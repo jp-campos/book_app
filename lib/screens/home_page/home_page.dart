@@ -55,6 +55,15 @@ class _HomePageState extends State<HomePage> {
                 );
               }
 
+              if (booksNotifier.searchedBooks.isEmpty) {
+                return Center(
+                  child: Text(
+                    'No hay libros aún',
+                    style: Theme.of(context).textTheme.overline,
+                  ),
+                );
+              }
+
               return ListView.builder(
                   padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
                   itemCount: booksNotifier.searchedBooks.length,

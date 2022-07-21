@@ -14,6 +14,8 @@ class Signin extends StatefulWidget {
 
 class _SigninState extends State<Signin> {
   final _formKey = GlobalKey<FormState>();
+  final dateEditingController = TextEditingController();
+
   double paddingBetween = 20.0;
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,6 @@ class _SigninState extends State<Signin> {
         Provider.of<SessionNotifier>(context, listen: false);
     final uBuilder = sessionProvider.userBuilder;
 
-    final dateEditingController = TextEditingController();
     return SingleChildScrollView(
       child: Column(
         children: [
