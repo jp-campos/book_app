@@ -14,7 +14,10 @@ class UserData extends StatelessWidget {
       return SingleChildScrollView(
         child: Column(
           children: [
-            Text('Hola ${currUser.names} ${currUser.surnames}'),
+            Text(
+              'Hola ${currUser.names} ${currUser.surnames}',
+              style: Theme.of(context).textTheme.headline2,
+            ),
             InfoPair(
                 title: 'Celular', value: currUser.phone, icon: Icons.phone),
             InfoPair(title: 'Email', value: currUser.email, icon: Icons.email),

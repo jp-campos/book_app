@@ -69,8 +69,8 @@ class _BookCardState extends State<BookCard> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  cardColor.withOpacity(0.2),
-                  cardColor.withOpacity(0.4),
+                  cardColor.withOpacity(0.1),
+                  cardColor.withOpacity(0.5),
                 ]),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15))),

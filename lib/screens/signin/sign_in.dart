@@ -29,7 +29,7 @@ class _SigninState extends State<Signin> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Text('Llena tus datos', style: Theme.of(context).textTheme.headline4),
+          Text('Llena tus datos', style: Theme.of(context).textTheme.headline1),
           SizedBox(height: 20),
           Form(
             key: _formKey,
