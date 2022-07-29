@@ -42,8 +42,8 @@ class _LoadingThumbnailState extends State<LoadingThumbnail>
               begin: Alignment(animation.value, 0),
               end: Alignment.centerLeft,
               colors: [
-                Colors.grey,
-                Colors.grey.shade300,
+                Colors.grey.shade100,
+                Colors.grey.shade500,
               ],
             )),
           );

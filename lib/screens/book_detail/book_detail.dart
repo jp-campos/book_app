@@ -16,6 +16,7 @@ class BookDetail extends StatefulWidget {
 }
 
 class _BookDetailState extends State<BookDetail> {
+  final scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,42 +32,50 @@ class _BookDetailState extends State<BookDetail> {
     final cover = widget.book.cover != null
         ? Image(image: NetworkImage(widget.book.cover!))
         : Image(image: AssetImage('assets/cover_placeholder.png'));
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-              child: Container(
-                  constraints: BoxConstraints(maxHeight: 300), child: cover)),
-          SizedBox(
-            height: 20,
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          controller: scrollController,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                  child: Container(
+                      constraints: BoxConstraints(maxHeight: 300),
+                      child: cover)),
+              SizedBox(
+                height: 20,
+              ),
+              Center(
+                child: Text(
+                  widget.book.title,
+                  style: Theme.of(context).textTheme.headline1,
+                ),
+              ),
+              Consumer<DescriptionNotifier>(
+                  builder: (context, notifier, child) {
+                if (notifier.loading) {
+                  return LinearProgressIndicator();
+                }
+                if (notifier.description != null) {
+                  return ExpandableText(text: notifier.description!);
+                }
+                return SizedBox.shrink();
+              }),
+              InfoPair(
+                  title: 'Autor', value: widget.book.author, icon: Icons.edit),
+              InfoPair(
+                  title: 'Primer año de publicación',
+                  value: widget.book.firstPublishYear,
+                  icon: Icons.calendar_today_outlined),
+              InfoPair(
+                  title: '# de páginas',
+                  value: widget.book.numberOfPagesMedian?.toString(),
+                  icon: Icons.auto_stories),
+            ],
           ),
-          Center(
-            child: Text(
-              widget.book.title,
-              style: Theme.of(context).textTheme.headline1,
-            ),
-          ),
-          Consumer<DescriptionNotifier>(builder: (context, notifier, child) {
-            if (notifier.loading) {
-              return LinearProgressIndicator();
-            }
-            if (notifier.description != null) {
-              return ExpandableText(text: notifier.description!);
-            }
-            return SizedBox.shrink();
-          }),
-          InfoPair(title: 'Autor', value: widget.book.author, icon: Icons.edit),
-          InfoPair(
-              title: 'Primer año de publicación',
-              value: widget.book.firstPublishYear,
-              icon: Icons.calendar_today_outlined),
-          InfoPair(
-              title: '# de páginas',
-              value: widget.book.numberOfPagesMedian?.toString(),
-              icon: Icons.auto_stories),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

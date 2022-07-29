@@ -21,3 +21,11 @@ Color getAverageColor(img.Image pic) {
   return Color.fromRGBO(
       sqrt(r / n).toInt(), sqrt(g / n).toInt(), sqrt(b / n).toInt(), 1);
 }
+
+Color lightenColor(Color c) {
+  final rt = c.red + (0.75 * (255 - c.red)).toInt();
+  final gt = c.green + (0.75 * (255 - c.green)).toInt();
+  final bt = c.blue + (0.75 * (255 - c.blue)).toInt();
+
+  return new Color.fromRGBO(rt, gt, bt, 1);
+}

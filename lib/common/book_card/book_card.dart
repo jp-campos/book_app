@@ -22,7 +22,7 @@ class BookCard extends StatefulWidget {
 }
 
 class _BookCardState extends State<BookCard> {
-  Color cardColor = Colors.blueGrey;
+  Color cardColor = Colors.blueGrey.shade200;
   ByteData? imageData;
   bool hasNoThumbnail = false;
 
@@ -48,9 +48,9 @@ class _BookCardState extends State<BookCard> {
       final Uint8List bytes = imageData!.buffer.asUint8List();
       final pic = img.decodeImage(bytes);
       if (pic != null) {
-        setState(() {
-          cardColor = getAverageColor(pic);
-        });
+        final avgColor = getAverageColor(pic);
+        final tintAvgColor = lightenColor(avgColor);
+        setState(() => cardColor = tintAvgColor);
         return;
       }
     }
@@ -65,12 +65,19 @@ class _BookCardState extends State<BookCard> {
       onTap: () => onBookTaped(widget.model),
       child: Container(
         decoration: ShapeDecoration(
+            shadows: [
+              BoxShadow(
+                  color: Colors.grey.shade300,
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 5))
+            ],
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  cardColor.withOpacity(0.1),
-                  cardColor.withOpacity(0.5),
+                  cardColor,
+                  cardColor,
                 ]),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15))),
