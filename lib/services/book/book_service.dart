@@ -15,8 +15,10 @@ class BookService implements BookGateway {
         Uri.https(_endPoint, '/search.json', {'q': query, 'limit': '20'});
     print(uri.toString());
     final response = await http.get(uri);
+
     Map<String, dynamic> json = jsonDecode(response.body);
     List<dynamic> docs = json['docs'];
+
     return docs.map<Book>((e) => bookFromMap(e)).toList();
   }
 

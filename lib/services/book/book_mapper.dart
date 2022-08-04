@@ -1,8 +1,6 @@
 import 'package:prixz/domain/book.dart';
 
 Book bookFromMap(Map<String, dynamic> map) {
-  ;
-
   return Book(
     id: map['key'],
     title: map['title'],

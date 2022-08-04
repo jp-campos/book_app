@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:prixz/common/book_card/color_helper.dart';
-import 'package:prixz/common/book_card/loading_thumbnail.dart';
 import 'package:prixz/domain/book.dart';
 import 'package:prixz/screens/book_detail/book_detail.dart';
 
